@@ -1,4 +1,5 @@
 import moment from 'moment';
+import key from '../keys/key';
 
 const getUserLocation = () =>
   new Promise((resolve, reject) => {
@@ -7,7 +8,6 @@ const getUserLocation = () =>
 
 const generateWeatherApiUrl = ({ latitude, longitude }) => {
   const proxy = 'https://cors-anywhere.herokuapp.com/';
-  const key = 'ad6b61ff57ff776c4759044d48160324';
   return `${proxy}https://api.darksky.net/forecast/${key}/${latitude},${longitude}?exclude=[flags]&units=si`;
 };
 

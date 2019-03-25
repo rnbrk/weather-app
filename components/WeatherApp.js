@@ -76,9 +76,8 @@ export default class WeatherApp extends React.Component {
 
   async componentDidMount() {
     this.refreshData();
+    this.skycons.play();
   }
-
-  componentDidUpdate() {}
 
   async refreshData() {
     let url;
@@ -124,6 +123,7 @@ export default class WeatherApp extends React.Component {
           <ForecastTable
             type={this.state.dailyOrHourlyForecast}
             amountOfColumns={5}
+            updateSkycon={this.updateSkycon}
             tableData={
               this.state.dailyOrHourlyForecast === 'daily'
                 ? this.state.dailyForecast

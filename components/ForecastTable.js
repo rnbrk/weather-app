@@ -9,7 +9,15 @@ const ForecastTable = props => (
     {props.tableData
       ? props.tableData
           .slice(0, props.amountOfColumns)
-          .map((item, index) => <ForecastColumn {...item} key={index} type={props.type} />)
+          .map((item, index) => (
+            <ForecastColumn
+              {...item}
+              key={index}
+              keyId={index}
+              type={props.type}
+              updateSkycon={props.updateSkycon}
+            />
+          ))
       : '...'}
   </div>
 );

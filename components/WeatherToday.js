@@ -1,15 +1,24 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+export default class WeatherToday extends React.Component {
+  componentDidUpdate() {
+    this.props.updateSkycon('weather-today__icon', this.props.icon);
+  }
 
-const WeatherToday = ({ temperature, icon, maxTemp, minTemp, cityName, dateTime, summary }) => (
-  <div className="weather-today-container">
-    <h1>{temperature ? Math.round(temperature) : '..'}</h1>
-    <canvas id="weather-today__icon" width="128" height="128" />
-    <h3>{maxTemp && minTemp ? `${Math.round(maxTemp)} / ${Math.round(minTemp)}` : '../..'}</h3>
-    <h2>{cityName}</h2>
-    <h3>{dateTime}</h3>
-    <h3>{`${summary}`}</h3>
-  </div>
-);
-
-export default WeatherToday;
+  render() {
+    return (
+      <div className="weather-today-container">
+        <h1>{this.props.temperature ? Math.round(this.props.temperature) : '..'}</h1>
+        <canvas id="weather-today__icon" width="192" height="192" />
+        <h3>
+          {this.props.maxTemp && this.props.minTemp
+            ? `${Math.round(this.props.maxTemp)} / ${Math.round(this.props.minTemp)}`
+            : '../..'}
+        </h3>
+        <h2>{this.props.cityName}</h2>
+        <h3>{this.props.dateTime}</h3>
+        <h3>{`${this.props.summary}`}</h3>
+      </div>
+    );
+  }
+}

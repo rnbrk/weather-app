@@ -8,6 +8,7 @@ import WeatherToday from './WeatherToday';
 
 import ForecastLineChart from './ForecastLineChart';
 import { getUserLocation, generateWeatherApiUrl, cleanUpApiResponse } from '../functions/utils';
+import Skycons from '../skycons/skycons';
 
 export default class WeatherApp extends React.Component {
   constructor(props) {
@@ -48,6 +49,8 @@ export default class WeatherApp extends React.Component {
     }
   };
 
+  skycons = new Skycons({ color: 'white' });
+
   toggleDailyHourly = () => {
     let newState;
 
@@ -63,9 +66,19 @@ export default class WeatherApp extends React.Component {
     }));
   };
 
+  updateSkycon = (skyconId, skyconTypeString) => {
+    if (document.getElementById(skyconId)) {
+      this.skycons.set(document.getElementById(skyconId), skyconTypeString);
+    } else {
+      this.skycons.add(document.getElementById(skyconId), skyconTypeString);
+    }
+  };
+
   async componentDidMount() {
     this.refreshData();
   }
+
+  componentDidUpdate() {}
 
   async refreshData() {
     let url;
@@ -100,6 +113,7 @@ export default class WeatherApp extends React.Component {
         <WeatherToday
           // eslint-disable-next-line react/destructuring-assignment
           {...this.state.currently}
+          updateSkycon={this.updateSkycon}
         />
 
         <DailyHourlyToggle

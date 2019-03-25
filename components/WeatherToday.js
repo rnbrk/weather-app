@@ -4,7 +4,7 @@ import React from 'react';
 const WeatherToday = ({ temperature, icon, maxTemp, minTemp, cityName, dateTime, summary }) => (
   <div className="weather-today-container">
     <h1>{temperature ? Math.round(temperature) : '..'}</h1>
-    <h3>{`[${icon}]`}</h3>
+    <canvas id="weather-today__icon" width="128" height="128" />
     <h3>{maxTemp && minTemp ? `${Math.round(maxTemp)} / ${Math.round(minTemp)}` : '../..'}</h3>
     <h2>{cityName}</h2>
     <h3>{dateTime}</h3>

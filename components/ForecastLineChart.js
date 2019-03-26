@@ -1,8 +1,9 @@
 import React from 'react';
 import { Line, defaults } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { arraysHaveTheSameValues } from '../functions/utils';
 
-defaults.global.animation.duration = 500;
+defaults.global.animation.duration = 0;
 
 export default class ForecastLineChart extends React.Component {
   constructor(props) {
@@ -26,10 +27,14 @@ export default class ForecastLineChart extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.chartData.datasets[0].data[0] !== this.props.chartData.datasets[0].data[0]) {
-      this.setState({
-        chartData: this.props.chartData
-      });
+    const currentChartData = this.state.chartData.datasets[0].data;
+    if (this.props.chartData.datasets) {
+      const newChartData = this.props.chartData.datasets[0].data;
+      if (!arraysHaveTheSameValues(currentChartData, newChartData)) {
+        this.setState({
+          chartData: this.props.chartData
+        });
+      }
     }
   }
 
@@ -47,21 +52,12 @@ export default class ForecastLineChart extends React.Component {
             scales: {
               xAxes: [
                 {
-                  display: true,
-                  gridLines: {
-                    display: true
-                  },
-                  ticks: {
-                    display: false
-                  }
+                  display: false
                 }
               ],
               yAxes: [
                 {
-                  display: false,
-                  gridLines: {
-                    display: false
-                  }
+                  display: false
                 }
               ]
             },
@@ -69,8 +65,8 @@ export default class ForecastLineChart extends React.Component {
               padding: {
                 left: 15,
                 right: 15,
-                top: 10,
-                bottom: 0
+                top: 20,
+                bottom: 10
               }
             },
             plugins: {
@@ -83,6 +79,9 @@ export default class ForecastLineChart extends React.Component {
                   weight: 'bold'
                 }
               }
+            },
+            tooltips: {
+              enabled: false
             }
           }}
           datasetKeyProvider={this.datasetKeyProvider}

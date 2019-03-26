@@ -14,19 +14,18 @@ export default class ForecastColumn extends React.Component {
       <div className="forecast-table__column">
         <h4>
           {this.props.type === 'daily'
-            ? this.props.dateTime.format('hh:mm')
-            : this.props.dateTime.format('ddd')}
+            ? this.props.dateTime.format('ddd')
+            : this.props.dateTime.format('hh:mm')}
         </h4>
         <canvas id={`forecast-table__icon${this.props.keyId}`} width="48" height="48" />
         <p>
           {typeof this.props.precipProbability === 'number'
-            ? Math.round(this.props.precipProbability)
+            ? `${Math.round(this.props.precipProbability)}%`
             : '..'}
-          %
-          {typeof this.props.precipIntensity === 'number'
-            ? Math.round(this.props.precipIntensity)
-            : '..'}
-          mm
+          {typeof this.props.precipIntensity === 'number' &&
+          Math.round(this.props.precipProbability) > 0
+            ? `${Math.round(this.props.precipIntensity)}mm`
+            : ''}
         </p>
       </div>
     );

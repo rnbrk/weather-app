@@ -7,22 +7,33 @@ import ForecastTable from './ForecastTable';
 import WeatherToday from './WeatherToday';
 
 import ForecastLineChart from './ForecastLineChart';
-import { getUserLocation, generateWeatherApiUrl, cleanUpApiResponse } from '../functions/utils';
+import {
+  getUserLocation,
+  generateWeatherApiUrl,
+  generateAddressApiUrl,
+  cleanUpApiResponse
+} from '../functions/utils';
 import Skycons from '../skycons/skycons';
 
 export default class WeatherApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      weatherDataIsUpdated: false,
       dailyOrHourlyForecast: 'daily',
+      userLocation: {
+        longitude: undefined,
+        latitude: undefined,
+        cityName: ''
+      },
       currently: {
         summary: '',
         icon: '',
         temperature: undefined,
         maxTemp: undefined,
         minTemp: undefined,
-        cityName: 'Amsterdam',
-        dateTime: moment().format('ddd DD MMMM hh:mm')
+        cityName: '',
+        time: undefined
       },
       dailyForecast: undefined,
       hourlyForecast: undefined,
@@ -67,10 +78,13 @@ export default class WeatherApp extends React.Component {
   };
 
   updateSkycon = (skyconId, skyconTypeString) => {
-    if (document.getElementById(skyconId)) {
-      this.skycons.set(document.getElementById(skyconId), skyconTypeString);
-    } else {
-      this.skycons.add(document.getElementById(skyconId), skyconTypeString);
+    const skyconElement = document.getElementById(skyconId);
+
+    if (!skyconElement) {
+      this.skycons.add(skyconElement, skyconTypeString);
+    } else if (skyconElement.getAttribute('type') !== skyconTypeString) {
+      this.skycons.set(skyconElement, skyconTypeString);
+      skyconElement.setAttribute('type', skyconTypeString);
     }
   };
 
@@ -80,30 +94,57 @@ export default class WeatherApp extends React.Component {
   }
 
   async refreshData() {
-    let url;
+    let weatherApiUrl;
+    let addressApiUrl;
+    let geoLocationResponse;
+    let userLocation;
     try {
-      const { coords } = await getUserLocation();
-      url = generateWeatherApiUrl({
-        latitude: coords.latitude,
-        longitude: coords.longitude
-      });
+      geoLocationResponse = await getUserLocation();
+
+      userLocation = {
+        latitude: geoLocationResponse.coords.latitude,
+        longitude: geoLocationResponse.coords.longitude
+      };
+
+      weatherApiUrl = generateWeatherApiUrl(userLocation);
+      addressApiUrl = generateAddressApiUrl(userLocation);
     } catch (error) {
       console.error('Error:', error);
     }
 
-    let response;
+    let addressApiResponse;
     try {
-      response = await fetch(url);
-      if (!response.ok) {
-        throw Error(response.statusText);
+      addressApiResponse = await fetch(addressApiUrl);
+      if (!addressApiResponse.ok) {
+        throw new Error(addressApiResponse.statusText);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('addressApiResponse', error);
+    }
+    const addressApiResponseJSON = await addressApiResponse.json();
+    if (addressApiResponseJSON.error) {
+      console.error('addressApiResponseJSON', addressApiResponseJSON.error);
+    } else {
+      userLocation.cityName = addressApiResponseJSON.address.town;
     }
 
-    const json = await response.json();
-    const cleanedJson = cleanUpApiResponse(json);
-    this.setState(() => ({ ...cleanedJson }));
+    let weatherApiResponse;
+    try {
+      weatherApiResponse = await fetch(weatherApiUrl);
+      if (!weatherApiResponse.ok) {
+        throw Error(weatherApiResponse.statusText);
+      }
+    } catch (error) {
+      console.error('weatherApiResponse', error);
+    }
+
+    const weatherApiResponseJson = await weatherApiResponse.json();
+    const cleanedUpJson = cleanUpApiResponse(weatherApiResponseJson);
+    this.setState(() => ({
+      ...cleanedUpJson,
+      userLocation,
+      weatherDataIsUpdated: true
+    }));
   }
 
   render() {
@@ -112,6 +153,7 @@ export default class WeatherApp extends React.Component {
         <WeatherToday
           // eslint-disable-next-line react/destructuring-assignment
           {...this.state.currently}
+          cityName={this.state.userLocation.cityName}
           updateSkycon={this.updateSkycon}
         />
 
@@ -139,7 +181,14 @@ export default class WeatherApp extends React.Component {
             }
           />
         </div>
-        <Footer onClickRefresh={this.refreshData} />
+        <Footer
+          onClickRefresh={this.refreshData}
+          timeOfLastUpdate={
+            this.state.weatherDataIsUpdated
+              ? moment.unix(this.state.currently.time).format('hh:mm')
+              : ''
+          }
+        />
       </div>
     );
   }

@@ -11,6 +11,11 @@ const generateWeatherApiUrl = ({ latitude, longitude }) => {
   return `${proxy}https://api.darksky.net/forecast/${key}/${latitude},${longitude}?exclude=[flags]&units=si`;
 };
 
+const generateAddressApiUrl = ({ latitude, longitude }) => {
+  const proxy = 'https://cors-anywhere.herokuapp.com/';
+  return `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+};
+
 const cleanUpApiResponse = json => {
   const currently = {
     ...json.currently,
@@ -64,7 +69,7 @@ const cleanUpApiResponse = json => {
       temperatureHigh,
       temperatureLow
     }) => ({
-      dateTime: moment(time),
+      dateTime: moment.unix(time),
       summary,
       icon,
       precipIntensity,
@@ -86,7 +91,7 @@ const cleanUpApiResponse = json => {
 
   const hourlyForecast = json.hourly.data.map(
     ({ time, summary, icon, precipIntensity, precipProbability, temperature }) => ({
-      dateTime: moment(time),
+      dateTime: moment.unix(time),
       summary,
       icon,
       precipIntensity,
@@ -109,4 +114,14 @@ const cleanUpApiResponse = json => {
   };
 };
 
-export { getUserLocation, generateWeatherApiUrl, cleanUpApiResponse };
+const arraysHaveTheSameValues = (arr1, arr2) => {
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
+};
+
+export {
+  getUserLocation,
+  generateWeatherApiUrl,
+  generateAddressApiUrl,
+  cleanUpApiResponse,
+  arraysHaveTheSameValues
+};

@@ -65,9 +65,9 @@ export default class ForecastLineChart extends React.Component {
             },
             layout: {
               padding: {
-                left: 6,
-                right: 6,
-                top: 20,
+                left: 7,
+                right: 7,
+                top: 25,
                 bottom: 6
               }
             },
@@ -76,8 +76,8 @@ export default class ForecastLineChart extends React.Component {
                 color: 'rgba(255, 255, 255, 1)',
                 align: 'top',
                 font: {
-                  family: 'Arial',
-                  size: 10,
+                  family: "'Amiko', sans-serif",
+                  size: 12,
                   weight: 'bold'
                 }
               }

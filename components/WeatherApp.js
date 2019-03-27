@@ -149,37 +149,39 @@ export default class WeatherApp extends React.Component {
 
   render() {
     return (
-      <div className="app-container">
-        <WeatherToday
-          // eslint-disable-next-line react/destructuring-assignment
-          {...this.state.currently}
-          cityName={this.state.userLocation.cityName}
-          updateSkycon={this.updateSkycon}
-        />
-
-        <div className="weather-forecast__container">
-          <DailyHourlyToggle
-            onToggleDailyHourly={this.toggleDailyHourly}
-            dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
-          />
-          <ForecastTable
-            type={this.state.dailyOrHourlyForecast}
-            amountOfColumns={5}
+      <div className="wrapper">
+        <div className="app-container">
+          <WeatherToday
+            // eslint-disable-next-line react/destructuring-assignment
+            {...this.state.currently}
+            cityName={this.state.userLocation.cityName}
             updateSkycon={this.updateSkycon}
-            tableData={
-              this.state.dailyOrHourlyForecast === 'daily'
-                ? this.state.dailyForecast
-                : this.state.hourlyForecast
-            }
           />
 
-          <ForecastLineChart
-            chartData={
-              this.state.dailyOrHourlyForecast === 'daily'
-                ? this.state.dailyTemperaturesChartData
-                : this.state.hourlyTemperaturesChartData
-            }
-          />
+          <div className="weather-forecast">
+            <DailyHourlyToggle
+              onToggleDailyHourly={this.toggleDailyHourly}
+              dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
+            />
+            <ForecastTable
+              type={this.state.dailyOrHourlyForecast}
+              amountOfColumns={5}
+              updateSkycon={this.updateSkycon}
+              tableData={
+                this.state.dailyOrHourlyForecast === 'daily'
+                  ? this.state.dailyForecast
+                  : this.state.hourlyForecast
+              }
+            />
+
+            <ForecastLineChart
+              chartData={
+                this.state.dailyOrHourlyForecast === 'daily'
+                  ? this.state.dailyTemperaturesChartData
+                  : this.state.hourlyTemperaturesChartData
+              }
+            />
+          </div>
         </div>
         <Footer onClickRefresh={this.refreshData} timeOfLastUpdate={this.state.currently.time} />
       </div>

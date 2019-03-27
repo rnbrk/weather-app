@@ -8,10 +8,34 @@
   margin: 0.5rem;
 }
 
+.weather-today__location-icon {
+  height: $m-size;
+  width: $m-size;
+  margin-bottom: 0;
+}
+
+.weather-today__refresh-icon {
+  height: $m-size;
+  width: $m-size;
+}
+
+.weather-today__refresh-icon:hover {
+  fill: $darkyellow;
+}
+
+.weather-today__summary {
+  margin-bottom: $s-size;
+}
+
+.weather-today__summary > h2 {
+  margin: 0;
+}
+
 .weather-today__temperature-and-icon-container {
   align-items: center;
   display: flex;
   justify-content: center;
+  margin: 0;
 }
 
 .weather-today__temperature-container {

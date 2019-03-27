@@ -1,6 +1,17 @@
 .footer {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   margin-top: 3rem;
   width: 100%;
+}
+
+.refresh-icon {
+  height: $m-size;
+  margin-left: 0.25rem;
+  width: $m-size;
+}
+
+a svg:hover .refresh-icon-path {
+  fill: $darkyellow;
 }

@@ -1,9 +1,30 @@
 .forecast-table__column {
-  border-right: $line-width solid $halfwhite;
+  border-right: $line-width solid $quarterwhite;
   text-align: center;
   width: 20%;
 }
 
 .forecast-table__column:last-child {
   border-right: none;
+}
+
+.forecast-table__precipitation-container {
+  display: flex;
+  height: $m-size;
+  justify-content: center;
+  align-items: center;
+}
+
+.raindrop-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  padding-bottom: 0.3rem;
+  margin-right: 0.1rem;
+}
+
+.footer > div {
+  display: flex;
+  height: $m-size;
+  justify-content: center;
+  align-items: center;
 }

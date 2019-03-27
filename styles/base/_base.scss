@@ -11,6 +11,7 @@ body {
   font-family: 'Amiko', sans-serif;
   font-size: $s-size;
   height: 100%;
+  max-width: 100%;
   letter-spacing: 0.05rem;
   padding: 3rem;
 }
@@ -24,6 +25,14 @@ a {
 
 a:hover {
   color: $darkyellow;
+}
+
+a:active {
+  outline: none;
+}
+
+a:focus {
+  outline: none;
 }
 
 h1 {
@@ -40,4 +49,8 @@ h3 {
 
 .unfocused {
   color: $halfwhite;
+}
+
+.selected {
+  font-weight: bold;
 }

@@ -11,6 +11,14 @@ button:disabled {
   cursor: default;
 }
 
+button:active {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
 button:hover:enabled {
   color: $darkyellow;
 }

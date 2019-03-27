@@ -34,8 +34,9 @@ const cleanUpApiResponse = json => {
     const datasetData = {
       label: '',
       backgroundColor: 'rgba(0, 0, 0, 0)',
-      pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
-      borderColor: 'rgba(255, 255, 255, 0.5)',
+      pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderWidth: 2,
       lineTension: 0,
       fill: false,
       data: []

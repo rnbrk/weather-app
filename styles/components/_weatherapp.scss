@@ -1,10 +1,39 @@
 .app-container {
-  width: 50rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.weather-forecast__container {
+.weather-forecast {
   border-top: $line-width solid $halfwhite;
   margin-left: $m-size;
   margin-right: $m-size;
   padding-top: $s-size;
+}
+
+.wrapper {
+  min-width: 30rem;
+}
+
+@media (min-width: 950px) {
+  .app-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .weather-forecast {
+    flex-grow: 1;
+    // flex-shrink: 1;
+    // max-width: 90rem;
+    width: 70%;
+  }
+
+  .weather-today {
+    max-width: 40rem;
+    // width: 30%;
+  }
+
+  .wrapper {
+    max-width: 120rem;
+    width: 100%;
+  }
 }

@@ -7,15 +7,37 @@ body {
   background-color: $lightcyan;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
   color: white;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Amiko', sans-serif;
+  font-size: $s-size;
+  height: 100%;
+  letter-spacing: 0.05rem;
+  padding: 3rem;
 }
 
-button {
+a {
+  color: white;
   cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
 }
 
-button:disabled {
-  cursor: default;
+a:hover {
+  color: $darkyellow;
+}
+
+h1 {
+  font-size: $xl-size;
+}
+
+h2 {
+  font-size: $l-size;
+}
+
+h3 {
+  font-size: $m-size;
+}
+
+.unfocused {
+  color: $halfwhite;
 }

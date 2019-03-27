@@ -60,7 +60,7 @@ export default class WeatherApp extends React.Component {
     }
   };
 
-  skycons = new Skycons({ color: 'white' });
+  skycons = new Skycons({ color: '#ffe200' });
 
   toggleDailyHourly = () => {
     let newState;
@@ -157,11 +157,11 @@ export default class WeatherApp extends React.Component {
           updateSkycon={this.updateSkycon}
         />
 
-        <DailyHourlyToggle
-          onToggleDailyHourly={this.toggleDailyHourly}
-          dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
-        />
-        <div>
+        <div className="weather-forecast__container">
+          <DailyHourlyToggle
+            onToggleDailyHourly={this.toggleDailyHourly}
+            dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
+          />
           <ForecastTable
             type={this.state.dailyOrHourlyForecast}
             amountOfColumns={5}
@@ -181,14 +181,7 @@ export default class WeatherApp extends React.Component {
             }
           />
         </div>
-        <Footer
-          onClickRefresh={this.refreshData}
-          timeOfLastUpdate={
-            this.state.weatherDataIsUpdated
-              ? moment.unix(this.state.currently.time).format('hh:mm')
-              : ''
-          }
-        />
+        <Footer onClickRefresh={this.refreshData} timeOfLastUpdate={this.state.currently.time} />
       </div>
     );
   }

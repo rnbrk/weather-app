@@ -1,0 +1,16 @@
+button {
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: $m-size;
+  font-weight: bold;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+button:hover:enabled {
+  color: $darkyellow;
+}

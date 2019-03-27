@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 const Footer = props => (
   <div className="footer">
@@ -13,7 +14,11 @@ const Footer = props => (
       </a>
     </div>
     <div>
-      {props.timeOfLastUpdate && <span>Updated: {props.timeOfLastUpdate}</span>}
+      {props.timeOfLastUpdate ? (
+        <span>Updated: {moment.unix(props.timeOfLastUpdate).format('HH:mm')}</span>
+      ) : (
+        <span>Not updated</span>
+      )}
       <button onClick={props.onClickRefresh}>Refresh</button>
     </div>
   </div>

@@ -15,7 +15,7 @@ export default class ForecastColumn extends React.Component {
         <h4>
           {this.props.type === 'daily'
             ? this.props.dateTime.format('ddd')
-            : this.props.dateTime.format('hh:mm')}
+            : this.props.dateTime.format('HH:mm')}
         </h4>
         <canvas id={`forecast-table__icon${this.props.keyId}`} width="48" height="48" />
         <p>

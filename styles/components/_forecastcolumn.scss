@@ -1,3 +1,9 @@
 .forecast-table__column {
-    width: 20%;
+  border-right: $line-width solid $halfwhite;
+  text-align: center;
+  width: 20%;
+}
+
+.forecast-table__column:last-child {
+  border-right: none;
 }

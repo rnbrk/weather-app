@@ -46,6 +46,8 @@ export default class ForecastLineChart extends React.Component {
         <Line
           data={this.state.chartData}
           options={{
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {
               display: false
             },
@@ -63,10 +65,10 @@ export default class ForecastLineChart extends React.Component {
             },
             layout: {
               padding: {
-                left: 15,
-                right: 15,
+                left: 6,
+                right: 6,
                 top: 20,
-                bottom: 10
+                bottom: 6
               }
             },
             plugins: {

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Line, defaults } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { arraysHaveTheSameValues } from '../functions/utils';
 
 defaults.global.animation.duration = 0;
+
+const arraysHaveTheSameValues = (arr1, arr2) => {
+  return JSON.stringify(arr1) === JSON.stringify(arr2);
+};
 
 export default class ForecastLineChart extends React.Component {
   constructor(props) {
@@ -15,8 +18,8 @@ export default class ForecastLineChart extends React.Component {
           {
             label: 'x',
             backgroundColor: 'rgba(0, 0, 0, 0)',
-            pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
-            borderColor: 'rgba(255, 255, 255, 0.5)',
+            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
             lineTension: 0,
             fill: false,
             data: []

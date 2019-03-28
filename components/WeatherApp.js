@@ -1,19 +1,19 @@
 import React from 'react';
-import moment from 'moment';
 
 import DailyHourlyToggle from './DailyHourlyToggle';
 import Footer from './Footer';
-import ForecastTable from './ForecastTable';
-import WeatherToday from './WeatherToday';
-
 import ForecastLineChart from './ForecastLineChart';
+import ForecastTable from './ForecastTable';
+import Skycons from '../skycons/skycons';
+import WeatherToday from './WeatherToday';
 import {
-  getUserLocation,
   generateWeatherApiUrl,
   generateAddressApiUrl,
+  getCityNameFromApi,
+  getUserLocation,
+  getWeatherDataFromApi,
   cleanUpApiResponse
-} from '../functions/utils';
-import Skycons from '../skycons/skycons';
+} from '../utils/ApiFunctions';
 
 export default class WeatherApp extends React.Component {
   constructor(props) {
@@ -43,35 +43,19 @@ export default class WeatherApp extends React.Component {
     this.refreshData = this.refreshData.bind(this);
   }
 
-  defaultChartData = {
-    data: {
-      labels: [0],
-      datasets: [
-        {
-          label: 'x',
-          backgroundColor: 'rgba(0, 0, 0, 0)',
-          pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
-          borderColor: 'rgba(255, 255, 255, 0.5)',
-          lineTension: 0,
-          fill: false,
-          data: [0]
-        }
-      ]
-    }
-  };
-
   skycons = new Skycons({ color: '#ffe200' });
 
   toggleDailyHourly = () => {
     let newState;
-
-    if (this.state.dailyOrHourlyForecast === 'daily') {
-      newState = 'hourly';
-    } else if (this.state.dailyOrHourlyForecast === 'hourly') {
-      newState = 'daily';
+    switch (this.state.dailyOrHourlyForecast) {
+      case 'daily':
+        newState = 'hourly';
+        break;
+      case 'hourly':
+        newState = 'daily';
+        break;
     }
 
-    console.log(this.state.dailyOrHourlyForecast);
     this.setState(() => ({
       dailyOrHourlyForecast: newState
     }));
@@ -94,54 +78,24 @@ export default class WeatherApp extends React.Component {
   }
 
   async refreshData() {
-    let weatherApiUrl;
-    let addressApiUrl;
-    let geoLocationResponse;
-    let userLocation;
-    try {
-      geoLocationResponse = await getUserLocation();
+    const userLocationResponse = await getUserLocation();
 
-      userLocation = {
-        latitude: geoLocationResponse.coords.latitude,
-        longitude: geoLocationResponse.coords.longitude
-      };
+    let userLocation = {
+      latitude: userLocationResponse.coords.latitude,
+      longitude: userLocationResponse.coords.longitude,
+      cityName: undefined
+    };
 
-      weatherApiUrl = generateWeatherApiUrl(userLocation);
-      addressApiUrl = generateAddressApiUrl(userLocation);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    const addressApiUrl = generateAddressApiUrl(userLocation);
+    userLocation.cityName = await getCityNameFromApi(addressApiUrl);
 
-    let addressApiResponse;
-    try {
-      addressApiResponse = await fetch(addressApiUrl);
-      if (!addressApiResponse.ok) {
-        throw new Error(addressApiResponse.statusText);
-      }
-    } catch (error) {
-      console.error('addressApiResponse', error);
-    }
-    const addressApiResponseJSON = await addressApiResponse.json();
-    if (addressApiResponseJSON.error) {
-      console.error('addressApiResponseJSON', addressApiResponseJSON.error);
-    } else {
-      userLocation.cityName = addressApiResponseJSON.address.town;
-    }
+    const weatherApiUrl = generateWeatherApiUrl(userLocation);
+    const weatherData = await getWeatherDataFromApi(weatherApiUrl);
+    console.log(weatherData);
+    const finalWeatherData = cleanUpApiResponse(weatherData);
 
-    let weatherApiResponse;
-    try {
-      weatherApiResponse = await fetch(weatherApiUrl);
-      if (!weatherApiResponse.ok) {
-        throw Error(weatherApiResponse.statusText);
-      }
-    } catch (error) {
-      console.error('weatherApiResponse', error);
-    }
-
-    const weatherApiResponseJson = await weatherApiResponse.json();
-    const cleanedUpJson = cleanUpApiResponse(weatherApiResponseJson);
     this.setState(() => ({
-      ...cleanedUpJson,
+      ...finalWeatherData,
       userLocation,
       weatherDataIsUpdated: true
     }));
@@ -152,7 +106,6 @@ export default class WeatherApp extends React.Component {
       <div className="wrapper">
         <div className="app-container">
           <WeatherToday
-            // eslint-disable-next-line react/destructuring-assignment
             {...this.state.currently}
             cityName={this.state.userLocation.cityName}
             updateSkycon={this.updateSkycon}
@@ -163,11 +116,12 @@ export default class WeatherApp extends React.Component {
               onToggleDailyHourly={this.toggleDailyHourly}
               dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
             />
+
             <ForecastTable
-              type={this.state.dailyOrHourlyForecast}
+              dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
               amountOfColumns={5}
               updateSkycon={this.updateSkycon}
-              tableData={
+              dailyOrHourlyWeatherData={
                 this.state.dailyOrHourlyForecast === 'daily'
                   ? this.state.dailyForecast
                   : this.state.hourlyForecast

@@ -28,7 +28,7 @@ export default class ForecastColumn extends React.Component {
     return (
       <div className="forecast-table__column">
         <h4>
-          {this.props.type === 'daily'
+          {this.props.dailyOrHourlyForecast === 'daily'
             ? this.props.dateTime.format('ddd')
             : this.props.dateTime.format('HH:mm')}
         </h4>

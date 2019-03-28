@@ -8,7 +8,7 @@ const ForecastTable = props => (
   <div className="forecast-table__table">
     {props.dailyOrHourlyWeatherData
       ? props.dailyOrHourlyWeatherData
-          .slice(0, props.amountOfColumns)
+          .slice(0, props.amountOfForecastColumns)
           .map((item, index) => (
             <ForecastColumn
               {...item}

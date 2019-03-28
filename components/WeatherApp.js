@@ -12,7 +12,7 @@ import {
   getCityNameFromApi,
   getUserLocation,
   getWeatherDataFromApi,
-  cleanUpApiResponse
+  reformatWeatherDataFromApiToState
 } from '../utils/ApiFunctions';
 
 export default class WeatherApp extends React.Component {
@@ -21,6 +21,7 @@ export default class WeatherApp extends React.Component {
     this.state = {
       weatherDataIsUpdated: false,
       dailyOrHourlyForecast: 'daily',
+      amountOfForecastColumns: 7,
       userLocation: {
         longitude: undefined,
         latitude: undefined,
@@ -37,8 +38,8 @@ export default class WeatherApp extends React.Component {
       },
       dailyForecast: undefined,
       hourlyForecast: undefined,
-      hourlyTemperaturesChartData: this.defaultChartData,
-      dailyTemperaturesChartData: this.defaultChartData
+      hourlyTemperaturesChartData: undefined,
+      dailyTemperaturesChartData: undefined
     };
     this.refreshData = this.refreshData.bind(this);
   }
@@ -91,8 +92,7 @@ export default class WeatherApp extends React.Component {
 
     const weatherApiUrl = generateWeatherApiUrl(userLocation);
     const weatherData = await getWeatherDataFromApi(weatherApiUrl);
-    console.log(weatherData);
-    const finalWeatherData = cleanUpApiResponse(weatherData);
+    const finalWeatherData = reformatWeatherDataFromApiToState(weatherData);
 
     this.setState(() => ({
       ...finalWeatherData,
@@ -113,26 +113,27 @@ export default class WeatherApp extends React.Component {
 
           <div className="weather-forecast">
             <DailyHourlyToggle
-              onToggleDailyHourly={this.toggleDailyHourly}
               dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
+              onToggleDailyHourly={this.toggleDailyHourly}
             />
 
             <ForecastTable
+              amountOfForecastColumns={this.state.amountOfForecastColumns}
               dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
-              amountOfColumns={5}
-              updateSkycon={this.updateSkycon}
               dailyOrHourlyWeatherData={
                 this.state.dailyOrHourlyForecast === 'daily'
                   ? this.state.dailyForecast
                   : this.state.hourlyForecast
               }
+              updateSkycon={this.updateSkycon}
             />
 
             <ForecastLineChart
-              chartData={
+              amountOfForecastColumns={this.state.amountOfForecastColumns}
+              arrayOfChartdataArrays={
                 this.state.dailyOrHourlyForecast === 'daily'
-                  ? this.state.dailyTemperaturesChartData
-                  : this.state.hourlyTemperaturesChartData
+                  ? this.state.dailyTemperatures
+                  : this.state.hourlyTemperatures
               }
             />
           </div>

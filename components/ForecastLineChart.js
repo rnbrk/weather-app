@@ -1,11 +1,50 @@
 import React from 'react';
-import { Line, defaults } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-defaults.global.animation.duration = 0;
 
 const arraysHaveTheSameValues = (arr1, arr2) => {
   return JSON.stringify(arr1) === JSON.stringify(arr2);
+};
+
+const sliceArraysInArray = (arrOfArr, length) => arrOfArr.map(arr => arr.slice(0, length));
+
+const addChartJSDatasetOptions = arrayOftemperatureArrays => {
+  // Turns an array of temperatures or an array of arrays of temperatures
+  // into an object which ChartJS can understand
+
+  // Make sure parameter is an array of arrays
+  let arrOfArr = [];
+  if (!Array.isArray(arrayOftemperatureArrays[0])) {
+    arrOfArr.push(arrayOftemperatureArrays);
+  } else {
+    arrOfArr = [...arrayOftemperatureArrays];
+  }
+
+  const datasetOptions = {
+    label: '',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 2,
+    lineTension: 0,
+    fill: false,
+    data: []
+  };
+
+  const chartData = {
+    labels: Array(arrOfArr[0].length).fill(0),
+    datasets: []
+  };
+
+  arrOfArr.forEach((arr, index) => {
+    chartData.datasets.push({
+      ...datasetOptions,
+      data: arr,
+      label: index
+    });
+  });
+
+  return chartData;
 };
 
 export default class ForecastLineChart extends React.Component {
@@ -30,12 +69,19 @@ export default class ForecastLineChart extends React.Component {
   }
 
   componentDidUpdate() {
-    const currentChartData = this.state.chartData.datasets[0].data;
-    if (this.props.chartData.datasets) {
-      const newChartData = this.props.chartData.datasets[0].data;
-      if (!arraysHaveTheSameValues(currentChartData, newChartData)) {
+    if (this.props.arrayOfChartdataArrays) {
+      const currentChartData = this.state.chartData.datasets[0].data;
+      const newChartData = sliceArraysInArray(
+        this.props.arrayOfChartdataArrays,
+        this.props.amountOfForecastColumns
+      );
+
+      console.log('newChartData', newChartData);
+
+      if (!arraysHaveTheSameValues(currentChartData, newChartData[0])) {
+        const newChartDataWithChartJSoptions = addChartJSDatasetOptions(newChartData);
         this.setState({
-          chartData: this.props.chartData
+          chartData: newChartDataWithChartJSoptions
         });
       }
     }
@@ -82,11 +128,15 @@ export default class ForecastLineChart extends React.Component {
                   family: "'Amiko', sans-serif",
                   size: 12,
                   weight: 'bold'
-                }
+                },
+                formatter: Math.round
               }
             },
             tooltips: {
               enabled: false
+            },
+            animation: {
+              duration: 0
             }
           }}
           datasetKeyProvider={this.datasetKeyProvider}

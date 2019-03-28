@@ -1,59 +1,17 @@
 import moment from 'moment';
 import key from '../keys/key';
 
-const addChartDataToTemperatures = arrayOftemperatureArrays => {
-  // Turns an array of temperatures or an array of arrays of temperatures
-  // into an object which ChartJS can understand
-
-  // Make sure parameter is an array of arrays
-  let arrOfArr = [];
-  if (!Array.isArray(arrayOftemperatureArrays[0])) {
-    arrOfArr.push(arrayOftemperatureArrays);
-  } else {
-    arrOfArr = [...arrayOftemperatureArrays];
-  }
-
-  // x4 Add datasetData per dataArray
-  const datasetData = {
-    label: '',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-    pointBackgroundColor: 'rgba(255, 255, 255, 1)',
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 2,
-    lineTension: 0,
-    fill: false,
-    data: []
-  };
-
-  const chartData = {
-    labels: Array(arrOfArr[0].length).fill(0),
-    datasets: []
-  };
-
-  arrOfArr.forEach((arr, index) => {
-    chartData.datasets.push({
-      ...datasetData,
-      data: arr,
-      label: index
-    });
-  });
-
-  return chartData;
-};
-
-const getArrayOfOneProperty = (arrayOfObjects, propertyName) =>
+const getOnePropertyFromArrayOfObjects = (propertyName, arrayOfObjects) =>
   arrayOfObjects.map(obj => obj[propertyName]);
 
-const cleanUpApiResponse = json => {
-  // 1. Copy currently object
-  // 2. Add minTemp and maxTemp to currently object so WeatherToday can easily access it
+const reformatWeatherDataFromApiToState = json => {
   const currently = {
     ...json.currently,
     maxTemp: json.daily.data[0].temperatureHigh,
     minTemp: json.daily.data[0].temperatureLow
   };
 
-  // Takes the relevant data from the API response
+  // Create array of objects with relevant data for the daily forecast
   const dailyForecast = json.daily.data.map(
     ({
       time,
@@ -74,19 +32,15 @@ const cleanUpApiResponse = json => {
     })
   );
 
-  // Gets the daily temperature data from the API response
-  // And saves it as an array
-  const dailyTemperaturesHigh = getArrayOfOneProperty(json.daily.data, 'temperatureHigh').slice(
-    0,
-    5
+  // Create array of arrays with high and low daily temperatures for ChartJS
+  const dailyTemperaturesHigh = getOnePropertyFromArrayOfObjects(
+    'temperatureHigh',
+    json.daily.data
   );
-  const dailyTemperaturesLow = getArrayOfOneProperty(json.daily.data, 'temperatureLow').slice(0, 5);
+  const dailyTemperaturesLow = getOnePropertyFromArrayOfObjects('temperatureLow', json.daily.data);
+  const dailyTemperatures = [dailyTemperaturesHigh, dailyTemperaturesLow];
 
-  // Turns two arrays of daily temperatures into chart data which ChartJS can understand
-  const arrayOfTemperatureArrays = [dailyTemperaturesHigh, dailyTemperaturesLow];
-  const dailyTemperaturesChartData = addChartDataToTemperatures(arrayOfTemperatureArrays);
-
-  // Takes the relevant data from the API response
+  // Create array of objects with relevant data for the hourly forecast
   const hourlyForecast = json.hourly.data.map(
     ({ time, summary, icon, precipIntensity, precipProbability, temperature }) => ({
       dateTime: moment.unix(time),
@@ -98,17 +52,16 @@ const cleanUpApiResponse = json => {
     })
   );
 
-  // Turns an arrays of hourly temperatures into chart data which ChartJS can understand
-  const hourlyTemperatures = getArrayOfOneProperty(json.hourly.data, 'temperature').slice(0, 5);
-  const hourlyTemperaturesChartData = addChartDataToTemperatures(hourlyTemperatures);
+  // Create array with one array inside with hourly temperatures for ChartJS
+  const hourlyTemperatures = [];
+  hourlyTemperatures.push(getOnePropertyFromArrayOfObjects('temperature', json.hourly.data));
 
-  // Combines everything into a state object which WeatherApp can understand
   return {
     currently,
     dailyForecast,
     hourlyForecast,
-    hourlyTemperaturesChartData,
-    dailyTemperaturesChartData
+    hourlyTemperatures,
+    dailyTemperatures
   };
 };
 
@@ -164,10 +117,10 @@ async function getWeatherDataFromApi(weatherApiUrl) {
 }
 
 export {
-  cleanUpApiResponse,
   generateAddressApiUrl,
   generateWeatherApiUrl,
   getCityNameFromApi,
   getWeatherDataFromApi,
-  getUserLocation
+  getUserLocation,
+  reformatWeatherDataFromApiToState
 };

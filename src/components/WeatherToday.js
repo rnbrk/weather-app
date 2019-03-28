@@ -29,7 +29,7 @@ export default class WeatherToday extends React.Component {
                 : '../..'}
             </h3>
           </div>
-          // Skyicon
+
           <canvas id="weather-today__icon" width="156" height="156" />
         </div>
 

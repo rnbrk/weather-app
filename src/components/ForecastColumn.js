@@ -23,8 +23,9 @@ export default class ForecastColumn extends React.Component {
         ) : (
           ''
         )}
-        // Skyicon
+
         <canvas id={`forecast-table__icon${this.props.keyId}`} width="48" height="48" />
+
         <div className="forecast-table__precipitation-container">
           {raindropIcon}
           <p>

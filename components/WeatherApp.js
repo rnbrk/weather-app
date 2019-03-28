@@ -41,10 +41,15 @@ export default class WeatherApp extends React.Component {
       hourlyTemperaturesChartData: undefined,
       dailyTemperaturesChartData: undefined
     };
-    this.refreshData = this.refreshData.bind(this);
+    this.updateAllAppData = this.updateAllAppData.bind(this);
   }
 
   skycons = new Skycons({ color: '#ffe200' });
+
+  async componentDidMount() {
+    this.updateAllAppData();
+    this.skycons.play();
+  }
 
   toggleDailyHourly = () => {
     let newState;
@@ -62,23 +67,7 @@ export default class WeatherApp extends React.Component {
     }));
   };
 
-  updateSkycon = (skyconId, skyconTypeString) => {
-    const skyconElement = document.getElementById(skyconId);
-
-    if (!skyconElement) {
-      this.skycons.add(skyconElement, skyconTypeString);
-    } else if (skyconElement.getAttribute('type') !== skyconTypeString) {
-      this.skycons.set(skyconElement, skyconTypeString);
-      skyconElement.setAttribute('type', skyconTypeString);
-    }
-  };
-
-  async componentDidMount() {
-    this.refreshData();
-    this.skycons.play();
-  }
-
-  async refreshData() {
+  async updateAllAppData() {
     const userLocationResponse = await getUserLocation();
 
     let userLocation = {
@@ -100,6 +89,17 @@ export default class WeatherApp extends React.Component {
       weatherDataIsUpdated: true
     }));
   }
+
+  updateSkycon = (skyconId, skyconTypeString) => {
+    const skyconElement = document.getElementById(skyconId);
+
+    if (!skyconElement) {
+      this.skycons.add(skyconElement, skyconTypeString);
+    } else if (skyconElement.getAttribute('type') !== skyconTypeString) {
+      this.skycons.set(skyconElement, skyconTypeString);
+      skyconElement.setAttribute('type', skyconTypeString);
+    }
+  };
 
   render() {
     return (
@@ -138,7 +138,10 @@ export default class WeatherApp extends React.Component {
             />
           </div>
         </div>
-        <Footer onClickRefresh={this.refreshData} timeOfLastUpdate={this.state.currently.time} />
+        <Footer
+          onClickRefresh={this.updateAllAppData}
+          timeOfLastUpdate={this.state.currently.time}
+        />
       </div>
     );
   }

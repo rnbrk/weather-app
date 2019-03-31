@@ -49,7 +49,27 @@ export default class WeatherApp extends React.Component {
   async componentDidMount() {
     this.updateAllAppData();
     this.skycons.play();
+    window.addEventListener('resize', this.resizeApp);
+    this.resizeApp();
   }
+
+  resizeApp = () => {
+    console.log(window.innerWidth);
+    let amountOfForecastColumns = this.state.amountOfForecastColumns;
+    if (window.innerWidth < 550) {
+      amountOfForecastColumns = 5;
+    } else if (window.innerWidth < 640) {
+      amountOfForecastColumns = 6;
+    } else {
+      amountOfForecastColumns = 7;
+    }
+
+    if (amountOfForecastColumns !== this.state.amountOfForecastColumns) {
+      this.setState(() => ({
+        amountOfForecastColumns
+      }));
+    }
+  };
 
   toggleDailyHourly = () => {
     let newState;

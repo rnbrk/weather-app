@@ -1,6 +1,6 @@
 {
-  "extends": ["airbnb", "prettier"],
-  "plugins": ["prettier", "babel-plugin-transform-class-properties"],
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["prettier", "class-property"],
   "env": {
     "node": true,
     "es6": true,

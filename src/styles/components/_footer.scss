@@ -12,6 +12,10 @@
   width: $m-size;
 }
 
-a svg:hover .refresh-icon-path {
+.refresh-button svg:hover .refresh-icon-path {
   fill: $darkyellow;
+}
+
+.refresh-button:focus {
+  outline: 2px dashed $darkyellow;
 }

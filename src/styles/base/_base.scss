@@ -32,7 +32,7 @@ a:active {
 }
 
 a:focus {
-  outline: none;
+  outline: 2px dashed $darkyellow;
 }
 
 h1 {

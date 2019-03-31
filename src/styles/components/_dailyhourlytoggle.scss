@@ -3,3 +3,11 @@
   justify-content: center;
   padding-bottom: $s-size;
 }
+
+.daily-hourly-toggle:focus {
+  outline: 2px dashed $darkyellow;
+}
+
+.daily-hourly-toggle:active {
+  outline: none;
+}

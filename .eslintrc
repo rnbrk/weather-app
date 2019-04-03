@@ -1,12 +1,14 @@
 {
   "extends": ["airbnb", "prettier", "prettier/react"],
-  "plugins": ["prettier", "class-property"],
+  "plugins": ["prettier"],
   "env": {
     "node": true,
     "es6": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "rules": {
+    "no-console": "warn",
     "prettier/prettier": ["warn"],
     "indent": "off",
     "react/jsx-indent": "off",

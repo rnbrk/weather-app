@@ -54,7 +54,6 @@ export default class WeatherApp extends React.Component {
   }
 
   resizeApp = () => {
-    console.log(window.innerWidth);
     let amountOfForecastColumns = this.state.amountOfForecastColumns;
     if (window.innerWidth < 550) {
       amountOfForecastColumns = 5;

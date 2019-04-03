@@ -7,11 +7,11 @@ const Footer = ({ onClickRefresh, timeOfLastUpdate }) => (
   <div className="footer">
     <span>
       Powered by{' '}
-      <a href="https://darksky.net" target="_blank" rel="noopener noreferrer">
+      <a href="https://darksky.net" target="_blank" rel="noopener noreferrer" tabIndex="0">
         DarkSky
       </a>{' '}
       and{' '}
-      <a href="https://nominatim.org/" target="_blank" rel="noopener noreferrer">
+      <a href="https://nominatim.org/" target="_blank" rel="noopener noreferrer" tabIndex="0">
         Nominatim
       </a>
     </span>

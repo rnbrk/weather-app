@@ -1,7 +1,7 @@
 .forecast-table__line-chart {
   margin-bottom: -16rem;
-  padding-left: 8.1%;
-  padding-right: 8.9%;
+  padding-left: calc(7.14% - 7px);
+  padding-right: calc(7.14% - 7px);
   position: relative;
   top: -16rem;
 }

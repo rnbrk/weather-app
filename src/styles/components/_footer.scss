@@ -19,3 +19,7 @@
 .refresh-button:focus {
   outline: 2px dashed $darkyellow;
 }
+
+.refresh-button:active {
+  outline: none;
+}

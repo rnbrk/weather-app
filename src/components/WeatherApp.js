@@ -49,11 +49,24 @@ export default class WeatherApp extends React.Component {
   async componentDidMount() {
     this.updateAllAppData();
     this.skycons.play();
-    window.addEventListener('resize', this.resizeApp);
-    this.resizeApp();
+    window.addEventListener('resize', this.onResizeScreen);
+    this.onResizeScreen();
   }
 
-  resizeApp = () => {
+  resizeForecastContainerTo = amountOfForecastColumns => {
+    // Adjust padding to align width of the forecast chart with the corecast columns
+    const newPadding = `calc(${100 / amountOfForecastColumns}%) - 7px`;
+    const lineChart = document.querySelector('.forecast-table__line-chart');
+    lineChart.style.paddingLeft = newPadding;
+    lineChart.style.paddingRight = newPadding;
+
+    // Set amount of columns
+    this.setState(() => ({
+      amountOfForecastColumns
+    }));
+  };
+
+  onResizeScreen = () => {
     let amountOfForecastColumns = this.state.amountOfForecastColumns;
     if (window.innerWidth < 550) {
       amountOfForecastColumns = 5;
@@ -64,9 +77,7 @@ export default class WeatherApp extends React.Component {
     }
 
     if (amountOfForecastColumns !== this.state.amountOfForecastColumns) {
-      this.setState(() => ({
-        amountOfForecastColumns
-      }));
+      this.resizeForecastContainerTo(amountOfForecastColumns);
     }
   };
 

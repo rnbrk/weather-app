@@ -1,8 +1,9 @@
 .forecast-table__table {
-  align-content: center;
+  align-items: stretch;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   height: 30rem;
-  justify-content: center;
+  // justify-content: center;
   width: 100%;
 }

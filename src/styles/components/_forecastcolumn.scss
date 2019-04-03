@@ -1,11 +1,14 @@
 .forecast-table__column {
   border-right: $line-width solid $quarterwhite;
   text-align: center;
-  width: 20%;
+
+  flex-grow: 2;
+  flex-shrink: 1;
+  flex-basis: 5rem;
 }
 
 .forecast-table__column:last-child {
-  border-right: none;
+  border-right: $line-width solid $invisible;
 }
 
 .forecast-table__precipitation-container {

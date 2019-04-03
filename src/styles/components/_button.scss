@@ -16,7 +16,7 @@ button:active {
 }
 
 button:focus {
-  outline: none;
+  outline: 2px dashed $darkyellow;
 }
 
 button:hover:enabled {

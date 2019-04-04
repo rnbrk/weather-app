@@ -12,17 +12,6 @@ export default class ForecastLineChart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.datasetOptions = {
-      label: '',
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      borderWidth: 2,
-      lineTension: 0,
-      fill: false,
-      data: []
-    };
-
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false
@@ -60,6 +49,17 @@ export default class ForecastLineChart extends React.Component {
     };
 
     this.chartOptions.tooltips = { enabled: false };
+
+    this.datasetOptions = {
+      label: '',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      pointBackgroundColor: 'rgba(255, 255, 255, 0.8)',
+      borderColor: 'rgba(255, 255, 255, 0.2)',
+      borderWidth: 2,
+      lineTension: 0,
+      fill: false,
+      data: []
+    };
 
     this.state = {
       chartData: {

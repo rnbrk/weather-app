@@ -97,9 +97,18 @@ async function getCityNameFromApi(addressApiUrl) {
 const getUserLocation = () =>
   new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject);
-  }).catch(error => {
-    console.error('Error: could not get userLocation.', error);
-  });
+  })
+    .then(response => ({
+      latitude: response.coords.latitude,
+      longitude: response.coords.longitude,
+      cityName: undefined
+    }))
+    .catch(error => {
+      if (error.code === error.PERMISSION_DENIED) {
+        return { error: 'PERMISSION_DENIED' };
+      }
+      return { error: 'NO_POSITION' };
+    });
 
 async function getWeatherDataFromApi(weatherApiUrl) {
   let weatherApiResponse;

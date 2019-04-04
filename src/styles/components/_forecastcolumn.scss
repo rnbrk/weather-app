@@ -11,6 +11,18 @@
   border-right: $line-width solid $invisible;
 }
 
+.forecast-table__column > canvas {
+  height: 48px;
+  width: 48px;
+}
+
+@media (max-width: 500px) {
+  .forecast-table__column > canvas {
+    height: 32px;
+    width: 32px;
+  }
+}
+
 .forecast-table__precipitation-container {
   display: flex;
   height: $m-size;

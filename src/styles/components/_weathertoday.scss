@@ -8,6 +8,46 @@
   margin: 0.5rem;
 }
 
+#weather-today__icon {
+  height: 128px;
+  width: 128px;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    padding-left: $s-size;
+    padding-right: $s-size;
+  }
+  .footer__updated-text {
+    font-size: 5px;
+    opacity: 0;
+  }
+
+  #weather-today__icon {
+    height: 96px;
+    width: 96px;
+  }
+
+  .weather-today h1 {
+    font-size: $l-size;
+  }
+
+  .weather-today h2 {
+    font-size: $m-size;
+  }
+
+  .weather-today h3 {
+    font-size: $s-size;
+  }
+
+  .weather-today__location-icon {
+    height: 0.5rem;
+    width: 0.5rem;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
 .weather-today__location-icon {
   height: $m-size;
   width: $m-size;
@@ -29,6 +69,7 @@
 
 .weather-today__summary > h2 {
   margin: 0;
+  margin-top: 2rem;
 }
 
 .weather-today__temperature-and-icon-container {
@@ -40,10 +81,10 @@
 
 .weather-today__temperature-container {
   align-items: center;
+  // margin-bottom: 10rem;
   margin-right: 2rem;
   display: flex;
   flex-direction: column;
-  height: 20rem;
   justify-content: center;
 }
 

@@ -5,14 +5,14 @@ html {
 body {
   background: linear-gradient($darkcyan, $lightcyan);
   background-color: $lightcyan;
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   background-size: cover;
   color: white;
   font-family: 'Amiko', sans-serif;
   font-size: $s-size;
   height: 100%;
-  max-width: 100%;
   letter-spacing: 0.05rem;
+  max-width: 100%;
   padding: 3rem;
 }
 

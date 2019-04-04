@@ -5,6 +5,7 @@ import Footer from './Footer';
 import ForecastLineChart from './ForecastLineChart';
 import ForecastTable from './ForecastTable';
 import Skycons from '../skycons/skycons';
+import ErrorMessage from './ErrorMessage';
 import WeatherToday from './WeatherToday';
 import {
   generateWeatherApiUrl,
@@ -15,13 +16,20 @@ import {
   reformatWeatherDataFromApiToState
 } from '../utils/ApiFunctions';
 
+const errorMessages = {
+  LOADING: 'Connecting...',
+  PERMISSION_DENIED: 'Turn on location on your device.',
+  NO_POSITION: 'Did not get location data, refresh to try again.'
+};
+
 export default class WeatherApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      weatherDataIsUpdated: false,
-      dailyOrHourlyForecast: 'daily',
       amountOfForecastColumns: 7,
+      dailyOrHourlyForecast: 'daily',
+      errorMessage: errorMessages.LOADING,
+      weatherDataIsUpdated: false,
       userLocation: {
         longitude: undefined,
         latitude: undefined,
@@ -48,9 +56,9 @@ export default class WeatherApp extends React.Component {
 
   async componentDidMount() {
     this.updateAllAppData();
-    this.skycons.play();
     window.addEventListener('resize', this.onResizeScreen);
     this.onResizeScreen();
+    this.skycons.play();
   }
 
   resizeForecastContainerTo = amountOfForecastColumns => {
@@ -67,7 +75,7 @@ export default class WeatherApp extends React.Component {
   };
 
   onResizeScreen = () => {
-    let amountOfForecastColumns = this.state.amountOfForecastColumns;
+    let amountOfForecastColumns;
     if (window.innerWidth < 550) {
       amountOfForecastColumns = 5;
     } else if (window.innerWidth < 640) {
@@ -98,13 +106,17 @@ export default class WeatherApp extends React.Component {
   };
 
   async updateAllAppData() {
-    const userLocationResponse = await getUserLocation();
+    const userLocation = await getUserLocation();
 
-    let userLocation = {
-      latitude: userLocationResponse.coords.latitude,
-      longitude: userLocationResponse.coords.longitude,
-      cityName: undefined
-    };
+    if (userLocation.error === 'PERMISSION_DENIED') {
+      this.setState(() => ({
+        errorMessage: errorMessages.PERMISSION_DENIED
+      }));
+    }
+
+    if (userLocation.error) {
+      return;
+    }
 
     const addressApiUrl = generateAddressApiUrl(userLocation);
     userLocation.cityName = await getCityNameFromApi(addressApiUrl);
@@ -116,7 +128,8 @@ export default class WeatherApp extends React.Component {
     this.setState(() => ({
       ...finalWeatherData,
       userLocation,
-      weatherDataIsUpdated: true
+      weatherDataIsUpdated: true,
+      errorMessage: ''
     }));
   }
 
@@ -134,40 +147,44 @@ export default class WeatherApp extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <div className="app-container">
-          <WeatherToday
-            {...this.state.currently}
-            cityName={this.state.userLocation.cityName}
-            updateSkycon={this.updateSkycon}
-          />
-
-          <div className="weather-forecast">
-            <DailyHourlyToggle
-              dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
-              onToggleDailyHourly={this.toggleDailyHourly}
-            />
-
-            <ForecastTable
-              amountOfForecastColumns={this.state.amountOfForecastColumns}
-              dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
-              dailyOrHourlyWeatherData={
-                this.state.dailyOrHourlyForecast === 'daily'
-                  ? this.state.dailyForecast
-                  : this.state.hourlyForecast
-              }
+        {this.state.errorMessage ? (
+          <ErrorMessage text={this.state.errorMessage} />
+        ) : (
+          <div className="app-container">
+            <WeatherToday
+              {...this.state.currently}
+              cityName={this.state.userLocation.cityName}
               updateSkycon={this.updateSkycon}
             />
 
-            <ForecastLineChart
-              amountOfForecastColumns={this.state.amountOfForecastColumns}
-              arrayOfChartdataArrays={
-                this.state.dailyOrHourlyForecast === 'daily'
-                  ? this.state.dailyTemperatures
-                  : this.state.hourlyTemperatures
-              }
-            />
+            <div className="weather-forecast">
+              <DailyHourlyToggle
+                dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
+                onToggleDailyHourly={this.toggleDailyHourly}
+              />
+
+              <ForecastTable
+                amountOfForecastColumns={this.state.amountOfForecastColumns}
+                dailyOrHourlyForecast={this.state.dailyOrHourlyForecast}
+                dailyOrHourlyWeatherData={
+                  this.state.dailyOrHourlyForecast === 'daily'
+                    ? this.state.dailyForecast
+                    : this.state.hourlyForecast
+                }
+                updateSkycon={this.updateSkycon}
+              />
+
+              <ForecastLineChart
+                amountOfForecastColumns={this.state.amountOfForecastColumns}
+                arrayOfChartdataArrays={
+                  this.state.dailyOrHourlyForecast === 'daily'
+                    ? this.state.dailyTemperatures
+                    : this.state.hourlyTemperatures
+                }
+              />
+            </div>
           </div>
-        </div>
+        )}
         <Footer
           onClickRefresh={this.updateAllAppData}
           timeOfLastUpdate={this.state.currently.time}

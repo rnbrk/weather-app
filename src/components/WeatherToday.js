@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { locationIcon } from '../svgs/icons';
 
 export default class WeatherToday extends React.Component {
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
   componentDidUpdate() {
     const { icon, updateSkycon } = this.props;
     updateSkycon('weather-today__icon', icon);

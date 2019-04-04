@@ -18,9 +18,11 @@ const Footer = ({ onClickRefresh, timeOfLastUpdate }) => (
 
     <div>
       {timeOfLastUpdate ? (
-        <span>Updated: {moment.unix(timeOfLastUpdate).format('HH:mm')}</span>
+        <span className="footer__updated-text">
+          Updated: {moment.unix(timeOfLastUpdate).format('HH:mm')}
+        </span>
       ) : (
-        <span>Weather data not updated</span>
+        <span className="footer__updated-text">Weather data not updated</span>
       )}
 
       <div

@@ -63,10 +63,12 @@ export default class WeatherApp extends React.Component {
 
   resizeForecastContainerTo = amountOfForecastColumns => {
     // Adjust padding to align width of the forecast chart with the corecast columns
-    const newPadding = `calc(${100 / amountOfForecastColumns}%) - 7px`;
-    const lineChart = document.querySelector('.forecast-table__line-chart');
-    lineChart.style.paddingLeft = newPadding;
-    lineChart.style.paddingRight = newPadding;
+    if (!this.state.errorMessage) {
+      const newPadding = `calc(${100 / amountOfForecastColumns}%) - 7px`;
+      const lineChart = document.querySelector('.forecast-table__line-chart');
+      lineChart.style.paddingLeft = newPadding;
+      lineChart.style.paddingRight = newPadding;
+    }
 
     // Set amount of columns
     this.setState(() => ({

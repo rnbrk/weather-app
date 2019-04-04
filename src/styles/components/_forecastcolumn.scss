@@ -16,7 +16,7 @@
   width: 48px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: $phone-medium) {
   .forecast-table__column > canvas {
     height: 32px;
     width: 32px;

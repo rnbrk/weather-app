@@ -1,6 +1,5 @@
 .weather-today {
   text-align: center;
-  // width: 100%;
 }
 
 .weather-today__datetime-city-container > * {
@@ -13,16 +12,7 @@
   width: 128px;
 }
 
-@media (max-width: 500px) {
-  .footer {
-    padding-left: $s-size;
-    padding-right: $s-size;
-  }
-  .footer__updated-text {
-    font-size: 5px;
-    opacity: 0;
-  }
-
+@media (max-width: $phone-medium) {
   #weather-today__icon {
     height: 96px;
     width: 96px;
@@ -70,6 +60,14 @@
 .weather-today__summary > h2 {
   margin: 0;
   margin-top: 2rem;
+}
+
+@media (min-width: $monitor-landscape) {
+  .weather-today {
+    flex-grow: 0;
+    margin: 3rem;
+    max-width: 40rem;
+  }
 }
 
 .weather-today__temperature-and-icon-container {

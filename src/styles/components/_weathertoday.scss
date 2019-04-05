@@ -8,14 +8,15 @@
 }
 
 #weather-today__icon {
-  height: 128px;
-  width: 128px;
+  height: 96px;
+  width: 96px;
 }
 
-@media (max-width: $phone-medium) {
+@media (max-width: $phone-medium) and (orientation: portrait),
+  (max-height: $phone-medium) and (orientation: landscape) {
   #weather-today__icon {
-    height: 96px;
-    width: 96px;
+    height: 64px;
+    width: 64px;
   }
 
   .weather-today h1 {
@@ -23,11 +24,15 @@
   }
 
   .weather-today h2 {
-    font-size: $m-size;
+    font-size: $s-size;
   }
 
   .weather-today h3 {
-    font-size: $s-size;
+    font-size: 1rem;
+  }
+
+  .weather-today h4 {
+    font-size: 1rem;
   }
 
   .weather-today__location-icon {
@@ -62,7 +67,7 @@
   margin-top: 2rem;
 }
 
-@media (min-width: $monitor-landscape) {
+@media (min-aspect-ratio: 5/4) {
   .weather-today {
     flex-grow: 0;
     margin: 3rem;

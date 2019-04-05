@@ -16,10 +16,25 @@
   width: 48px;
 }
 
-@media (max-width: $phone-medium) {
+@media (max-width: $phone-medium) and (orientation: portrait),
+  (max-height: $phone-medium) and (orientation: landscape) {
   .forecast-table__column > canvas {
     height: 32px;
     width: 32px;
+  }
+
+  .forecast-table__precipitation-container {
+    font-size: 1rem;
+  }
+}
+
+@media (max-height: $phone-small) {
+  .forecast-table__column {
+    height: 20rem;
+  }
+
+  .forecast-table__precipitation-container {
+    font-size: 1rem;
   }
 }
 

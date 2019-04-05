@@ -22,22 +22,22 @@
     font-size: 5px;
     opacity: 0;
   }
+}
 
-  .refresh-icon {
-    height: $m-size;
-    margin-left: 0.25rem;
-    width: $m-size;
-  }
+.refresh-icon {
+  height: $m-size;
+  margin-left: 0.25rem;
+  width: $m-size;
+}
 
-  .refresh-button svg:hover .refresh-icon-path {
-    fill: $darkyellow;
-  }
+.refresh-button svg:hover .refresh-icon-path {
+  fill: $darkyellow;
+}
 
-  .refresh-button:focus {
-    outline: 2px dashed $darkyellow;
-  }
+.refresh-button:focus {
+  outline: 2px dashed $darkyellow;
+}
 
-  .refresh-button:active {
-    outline: none;
-  }
+.refresh-button:active {
+  outline: none;
 }

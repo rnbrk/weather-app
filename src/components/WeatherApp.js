@@ -61,6 +61,27 @@ export default class WeatherApp extends React.Component {
     this.skycons.play();
   }
 
+  screenWiderThanBreakpoint = breakpoint => window.innerWidth / window.innerHeight > breakpoint;
+
+  onResizeScreen = () => {
+    let amountOfForecastColumns;
+    const widthOfForecastContainer = this.screenWiderThanBreakpoint(5 / 4)
+      ? window.innerWidth * 0.5
+      : window.innerWidth;
+
+    if (widthOfForecastContainer < 550) {
+      amountOfForecastColumns = 5;
+    } else if (widthOfForecastContainer < 640) {
+      amountOfForecastColumns = 6;
+    } else {
+      amountOfForecastColumns = 7;
+    }
+
+    if (amountOfForecastColumns !== this.state.amountOfForecastColumns) {
+      this.resizeForecastContainerTo(amountOfForecastColumns);
+    }
+  };
+
   resizeForecastContainerTo = amountOfForecastColumns => {
     // Adjust padding to align width of the forecast chart with the corecast columns
     if (!this.state.errorMessage) {
@@ -74,21 +95,6 @@ export default class WeatherApp extends React.Component {
     this.setState(() => ({
       amountOfForecastColumns
     }));
-  };
-
-  onResizeScreen = () => {
-    let amountOfForecastColumns;
-    if (window.innerWidth < 550) {
-      amountOfForecastColumns = 5;
-    } else if (window.innerWidth < 640) {
-      amountOfForecastColumns = 6;
-    } else {
-      amountOfForecastColumns = 7;
-    }
-
-    if (amountOfForecastColumns !== this.state.amountOfForecastColumns) {
-      this.resizeForecastContainerTo(amountOfForecastColumns);
-    }
   };
 
   toggleDailyHourly = () => {

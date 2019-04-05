@@ -16,13 +16,14 @@
   min-width: 30rem;
 }
 
-@media (max-width: $phone-medium) {
+@media (max-width: $phone-small) and (orientation: portrait),
+  (max-height: $phone-small) and (orientation: landscape) {
   body {
     padding: 0;
   }
 }
 
-@media (min-width: $monitor-landscape) {
+@media (min-aspect-ratio: 5/4) {
   .app-container {
     align-items: center;
     display: flex;

@@ -94,6 +94,10 @@ export default class ForecastLineChart extends React.Component {
     return chartData;
   };
 
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
   componentDidUpdate() {
     if (this.props.arrayOfChartdataArrays) {
       const currentChartData = this.state.chartData.datasets[0].data;

@@ -1,7 +1,15 @@
 .forecast-table__line-chart {
-  margin-bottom: -16rem;
+  height: 11rem;
+  margin-bottom: -13rem;
   padding-left: calc(7.14% - 7px);
   padding-right: calc(7.14% - 7px);
   position: relative;
-  top: -16rem;
+  top: -13rem;
+}
+
+@media (max-height: $phone-small) {
+  .forecast-table__line-chart {
+    margin-bottom: -15rem;
+    top: -15rem;
+  }
 }

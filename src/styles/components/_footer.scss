@@ -17,6 +17,18 @@
   }
 }
 
+@media (max-height: $phone-medium), (max-width: $phone-medium) {
+  .footer {
+    bottom: 0;
+    left: 0;
+    // margin: 0;
+    min-width: 30rem;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+  }
+}
+
 @media (max-width: $phone-medium) {
   .footer__updated-text {
     font-size: 5px;
@@ -30,14 +42,14 @@
   width: $m-size;
 }
 
-.refresh-button svg:hover .refresh-icon-path {
-  fill: $darkyellow;
+.refresh-button:active {
+  outline: none;
 }
 
 .refresh-button:focus {
   outline: 2px dashed $darkyellow;
 }
 
-.refresh-button:active {
-  outline: none;
+.refresh-button svg:hover .refresh-icon-path {
+  fill: $darkyellow;
 }

@@ -7,12 +7,12 @@ button {
   font-weight: bold;
 }
 
-button:disabled {
-  cursor: default;
-}
-
 button:active {
   outline: none;
+}
+
+button:disabled {
+  cursor: default;
 }
 
 button:focus {

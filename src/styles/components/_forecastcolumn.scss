@@ -1,7 +1,13 @@
+.footer > div {
+  display: flex;
+  height: $m-size;
+  justify-content: center;
+  align-items: center;
+}
+
 .forecast-table__column {
   border-right: $line-width solid $quarterwhite;
   text-align: center;
-
   flex-grow: 2;
   flex-shrink: 1;
   flex-basis: 5rem;
@@ -14,6 +20,13 @@
 .forecast-table__column > canvas {
   height: 48px;
   width: 48px;
+}
+
+.forecast-table__precipitation-container {
+  display: flex;
+  height: $m-size;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: $phone-medium) and (orientation: portrait),
@@ -38,23 +51,9 @@
   }
 }
 
-.forecast-table__precipitation-container {
-  display: flex;
-  height: $m-size;
-  justify-content: center;
-  align-items: center;
-}
-
 .raindrop-icon {
   width: 0.9rem;
   height: 0.9rem;
   padding-bottom: 0.3rem;
   margin-right: 0.1rem;
-}
-
-.footer > div {
-  display: flex;
-  height: $m-size;
-  justify-content: center;
-  align-items: center;
 }

@@ -12,37 +12,6 @@
   width: 96px;
 }
 
-@media (max-width: $phone-medium) and (orientation: portrait),
-  (max-height: $phone-medium) and (orientation: landscape) {
-  #weather-today__icon {
-    height: 64px;
-    width: 64px;
-  }
-
-  .weather-today h1 {
-    font-size: $l-size;
-  }
-
-  .weather-today h2 {
-    font-size: $s-size;
-  }
-
-  .weather-today h3 {
-    font-size: 1rem;
-  }
-
-  .weather-today h4 {
-    font-size: 1rem;
-  }
-
-  .weather-today__location-icon {
-    height: 0.5rem;
-    width: 0.5rem;
-    opacity: 0;
-    margin-bottom: 0;
-  }
-}
-
 .weather-today__location-icon {
   height: $m-size;
   width: $m-size;
@@ -67,14 +36,6 @@
   margin-top: 2rem;
 }
 
-@media (min-aspect-ratio: 5/4) {
-  .weather-today {
-    flex-grow: 0;
-    margin: 3rem;
-    max-width: 40rem;
-  }
-}
-
 .weather-today__temperature-and-icon-container {
   align-items: center;
   display: flex;
@@ -93,4 +54,43 @@
 
 .weather-today__temperature-container > * {
   margin: 0;
+}
+
+@media (max-width: $phone-medium) and (orientation: portrait),
+  (max-height: $phone-medium) and (orientation: landscape) {
+  .weather-today h1 {
+    font-size: $l-size;
+  }
+
+  .weather-today h2 {
+    font-size: $s-size;
+  }
+
+  .weather-today h3 {
+    font-size: 1rem;
+  }
+
+  .weather-today h4 {
+    font-size: 1rem;
+  }
+
+  #weather-today__icon {
+    height: 64px;
+    width: 64px;
+  }
+
+  .weather-today__location-icon {
+    height: 0.5rem;
+    width: 0.5rem;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-aspect-ratio: 5/4) {
+  .weather-today {
+    flex-grow: 0;
+    margin: 3rem;
+    max-width: 40rem;
+  }
 }

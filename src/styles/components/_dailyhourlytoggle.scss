@@ -1,3 +1,7 @@
+.daily-hourly-toggle:active {
+  outline: none;
+}
+
 .daily-hourly-toggle__container {
   display: flex;
   justify-content: center;
@@ -6,8 +10,4 @@
 
 .daily-hourly-toggle:focus {
   outline: 2px dashed $darkyellow;
-}
-
-.daily-hourly-toggle:active {
-  outline: none;
 }
